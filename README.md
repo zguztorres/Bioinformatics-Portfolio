@@ -1,5 +1,5 @@
 # Bioinformatics-Portfolio
-Colección de proyectos de análisis de datos biológicos utilizando Python y R. Enfocado en el perfilado metabólico y el análisis computacional de proteínas.
+Colección de proyectos de análisis de datos biológicos 
 
 ### 1. [Perfilado Metabólico y Visualización de Datos (Python)](enlace-a-tu-carpeta-python)
 Pipeline automatizado para el procesamiento, normalización y visualización (Heatmaps) de datos de metabolómica dirigida (espectrometría de masas LC-MS). Agiliza la identificación de "huellas químicas" y patrones de alteración metabólica en estudios comparativos, transformando datos crudos masivos en visualizaciones interpretables.
