@@ -1,0 +1,16 @@
+# SynBioScan: Perfilado Termodinámico Automatizado y Predicción de Dianas 
+
+**SynBioScan** es un *pipeline* automatizado basado en R, diseñado para aplicaciones de bioinformática estructural y biología sintética. Esta herramienta procesa secuencias proteicas crudas, calcula su estabilidad termodinámica basándose en la escala de hidrofobicidad de Kyte-Doolittle, y predice automáticamente las coordenadas óptimas para la edición genética (como la inserción de *tags* o el escaneo mutacional). 
+
+Desarrollada y validada originalmente utilizando la **enzima SIRT1** como modelo, esta herramienta hace evolucionar el análisis de proteínas: pasando de una inspección puramente visual en 3D, a un proceso robusto de toma de decisiones fundamentado en datos matemáticos.
+
+## Características:
+* **Control de Calidad Automatizado (QC):** Sanitiza las secuencias de entrada y cuantifica el porcentaje de ruido biológico (ej. residuos desconocidos 'X') previo a cualquier cómputo, evitando fallos de ejecución.
+* **Ventana Deslizante Paramétrica:** Implementa un filtro de media móvil personalizable para suavizar las fluctuaciones locales y revelar las macrotendencias de plegamiento (núcleo hidrofóbico vs. bucles superficiales hidrofílicos).
+* **Buscador Predictivo de Dianas:** Ordena algorítmicamente la matriz de datos resultante para extraer y reportar por consola las coordenadas exactas de los dominios más hidrofílicos, identificando las zonas más seguras para intervenciones sintéticas.
+* **Visualización por Gradiente de Color:** Genera un perfil bidimensional continuo usando `ggplot2` (gradiente de azul a rojo), proporcionando una auditoría visual inmediata de la topología termodinámica de la molécula.
+
+## 🛠️Herramientas usadas:
+* **Lenguaje:** R
+* **Librerías:** `ggplot2` (Visualización de datos avanzados)
+* **Lógica Central:** Funciones base de R (`gsub`, `strsplit`, bucles `for`, *Data Frames*) para un procesamiento de cadenas rápido y sin dependencias externas.
