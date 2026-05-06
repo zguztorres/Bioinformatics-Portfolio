@@ -1,0 +1,230 @@
+# CROHN'S DISEASE STATISTICAL ANALYSIS
+
+# Description: Analysis of 117 Crohn's disease patients to identify factors
+#              associated with surgery (age, sex, diet, disease episodes, BMI)
+# Phases: 1) Exploratory, 2) Inference, 3) Logistic Regression, 4) Multivariate
+
+
+# 0. SETUP
+
+graphics.off()
+rm(list = ls())
+
+# Install packages if needed (uncomment)
+# install.packages(c("readxl", "ggplot2", "dplyr", "car", "DescTools", "lmtest",
+#                    "pROC", "FactoMineR", "factoextra", "cluster", "ggpubr",
+#                    "pheatmap", "corrplot", "Hmisc", "gt"))
+
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(car)
+library(DescTools)
+library(lmtest)
+library(pROC)
+library(FactoMineR)
+library(factoextra)
+library(cluster)
+library(ggpubr)
+library(pheatmap)
+library(corrplot)
+library(Hmisc)
+library(gt)
+
+# 1. LOAD & RECODE DATA
+
+crohn <- read_excel("datos/datos_crohn.xlsx")  # Adjust path as needed
+
+crohn$sex <- factor(crohn$sex, levels = c("female", "male"),
+                    labels = c("Female", "Male"))
+
+crohn$diet <- factor(crohn$diet, levels = c("diet1", "diet2", "placebo"),
+                     labels = c("Diet 1", "Diet 2", "Placebo"))
+
+crohn$surgery <- factor(crohn$surgery, levels = c("no", "yes"),
+                        labels = c("No", "Yes"))
+
+cat("=== DATA LOADED ===\n")
+cat("Patients:", nrow(crohn), "\n")
+str(crohn)
+
+# 2. PHASE 1: EXPLORATORY ANALYSIS
+
+# 2.1 Categorical variables (Figure 1)
+cat("\n=== CATEGORICAL VARIABLES ===\n")
+table(crohn$sex)
+prop.table(table(crohn$sex))
+
+table(crohn$diet)
+prop.table(table(crohn$diet))
+
+table(crohn$surgery)
+prop.table(table(crohn$surgery))
+
+# 2.2 Numerical variables - summary
+cat("\n=== NUMERICAL VARIABLES SUMMARY ===\n")
+summary(crohn[, c("age", "bmi", "event_n", "height", "weight")])
+
+# Normality tests (Shapiro-Wilk)
+cat("\n=== SHAPIRO-WILK NORMALITY TESTS ===\n")
+shapiro.test(crohn$age)
+shapiro.test(crohn$bmi)
+shapiro.test(crohn$event_n)
+shapiro.test(crohn$height)
+shapiro.test(crohn$weight)
+
+# 2.3 Boxplots by surgery (Figure 6)
+num_vars <- c("age", "bmi", "event_n", "height", "weight")
+for (var in num_vars) {
+  p <- ggplot(crohn, aes(x = surgery, y = .data[[var]], fill = surgery)) +
+    geom_boxplot() + theme_minimal() + labs(title = paste(var, "by surgery"))
+  print(p)
+}
+
+# 2.4 Density plots by surgery (Figure 7)
+vars_density <- c("age", "height", "weight")
+crohn_long <- crohn %>% pivot_longer(cols = all_of(vars_density), names_to = "variable")
+
+ggplot(crohn_long, aes(x = value, fill = surgery, color = surgery)) +
+  geom_density(alpha = 0.5) + facet_wrap(~variable, scales = "free") +
+  theme_minimal() + labs(title = "Density curves by surgery")
+
+# 2.5 Scatter plots (Figure 8)
+pairs(crohn[, c("age", "bmi", "event_n", "height", "weight")],
+      main = "Scatter plot matrix")
+
+# 3. PHASE 2: INFERENCE
+
+# 3.1 Correlation matrix (Spearman) - Figure 9
+num_data <- crohn[, c("age", "bmi", "event_n", "height", "weight")]
+cor_matrix <- cor(num_data, method = "spearman", use = "complete.obs")
+cat("\n=== SPEARMAN CORRELATION MATRIX ===\n")
+print(round(cor_matrix, 4))
+
+# 3.2 Differences by surgery (Wilcoxon) - Table 2
+cat("\n=== WILCOXON TESTS: surgery vs age, bmi, event_n ===\n")
+wilcox.test(age ~ surgery, data = crohn)
+wilcox.test(bmi ~ surgery, data = crohn)
+wilcox.test(event_n ~ surgery, data = crohn)
+
+# 3.3 Categorical associations (Chi-square) - Figure 5
+cat("\n=== CHI-SQUARE TESTS ===\n")
+chisq.test(table(crohn$sex, crohn$surgery))
+chisq.test(table(crohn$diet, crohn$surgery))
+
+# 3.4 ANOVA: BMI ~ Diet - Table 3
+cat("\n=== ANOVA: BMI ~ DIET ===\n")
+leveneTest(bmi ~ diet, data = crohn)
+anova_bmi <- aov(bmi ~ diet, data = crohn)
+summary(anova_bmi)
+
+# Post-hoc with FDR correction
+pairwise.t.test(crohn$bmi, crohn$diet, p.adjust.method = "fdr")
+
+# Effect size
+eta_sq <- summary(anova_bmi)[[1]]$`Sum Sq`[1] / sum(summary(anova_bmi)[[1]]$`Sum Sq`)
+cat("Eta-squared:", round(eta_sq, 4), "\n")
+
+# 4. PHASE 3: LOGISTIC REGRESSION (predict surgery)
+
+# 4.1 Full model
+model_full <- glm(surgery ~ age + bmi + event_n + sex + diet,
+                  data = crohn, family = "binomial")
+
+# 4.2 Stepwise selection (both directions)
+model_final <- step(model_full, direction = "both", trace = 0)
+cat("\n=== FINAL LOGISTIC MODEL (stepwise) ===\n")
+cat("Formula:", as.character(formula(model_final)), "\n")
+summary(model_final)
+
+# 4.3 Odds Ratios
+OR <- exp(coef(model_final))
+OR_CI <- exp(confint(model_final))
+cat("\n=== ODDS RATIOS ===\n")
+print(round(OR, 4))
+print(round(OR_CI, 4))
+
+# 4.4 Model quality
+pseudo_r2 <- PseudoR2(model_final, which = "McFadden")
+cat("\nMcFadden R²:", round(pseudo_r2, 4), "\n")
+
+# Confusion matrix
+pred <- ifelse(predict(model_final, type = "response") > 0.5, "Yes", "No")
+conf_mat <- table(Observed = crohn$surgery, Predicted = pred)
+cat("\n=== CONFUSION MATRIX ===\n")
+print(conf_mat)
+accuracy <- sum(diag(conf_mat)) / sum(conf_mat)
+cat("Accuracy:", round(accuracy * 100, 2), "%\n")
+
+# 4.5 ROC Curve
+roc_curve <- roc(crohn$surgery, predict(model_final, type = "response"))
+plot(roc_curve, main = paste("ROC Curve - AUC =", round(auc(roc_curve), 3)))
+
+# 4.6 Influence plot (Figure 10)
+influencePlot(model_final)
+
+# 5. PHASE 4: MULTIVARIATE ANALYSIS
+
+# 5.1 PCA - Figure 11 & 12
+pca_data <- crohn[, c("age", "bmi", "event_n", "height", "weight")]
+res.pca <- PCA(pca_data, scale.unit = TRUE, graph = FALSE, ncp = 5)
+
+# Scree plot (Figure 11)
+fviz_eig(res.pca, addlabels = TRUE, title = "Variance explained by PCA components")
+
+# Biplot colored by surgery (Figure 12)
+fviz_pca_biplot(res.pca, habillage = crohn$surgery, addEllipses = TRUE,
+                repel = TRUE, title = "PCA Biplot - Individuals by surgery")
+
+# 5.2 Hierarchical clustering
+cluster_data <- scale(pca_data)
+dist_matrix <- dist(cluster_data, method = "euclidean")
+hc <- hclust(dist_matrix, method = "average")
+
+# Dendrogram (Figure 14)
+fviz_dend(hc, k = 2, cex = 0.5, title = "Dendrogram - Hierarchical clustering")
+
+# Optimal number of clusters (Figure 13)
+fviz_nbclust(cluster_data, FUN = hcut, method = "silhouette", k.max = 8)
+
+# 5.3 Heatmap (Figure 16)
+annotation <- data.frame(Surgery = crohn$surgery)
+rownames(annotation) <- paste0("P", 1:nrow(crohn))
+
+pheatmap(t(cluster_data),
+         annotation_col = annotation,
+         main = "Heatmap - Numerical variables",
+         fontsize = 6,
+         color = colorRampPalette(c("navy", "white", "firebrick3"))(50))
+
+# 6. SUMMARY TABLES (gt package)
+
+# Table 1: Normality tests
+tab_norm <- data.frame(
+  Variable = c("Age", "BMI", "Episodes", "Height", "Weight"),
+  W = c(0.974, 0.932, 0.818, 0.971, 0.967),
+  p_value = c(0.0235, "<0.001", "<0.001", 0.0115, 0.0059),
+  Normal = c("NO", "NO", "NO", "NO", "NO")
+)
+
+gt(tab_norm) %>% tab_header(title = "Table 1. Shapiro-Wilk normality tests")
+
+# Table 2: Differences by surgery
+tab_surgery <- data.frame(
+  Variable = c("Age (years)", "BMI (kg/m²)", "Episodes"),
+  Median_No = c(54, 25.21, 1),
+  Median_Yes = c(60, 24.96, 2),
+  p_value = c(0.0147, 0.7637, "<0.001")
+)
+gt(tab_surgery) %>% tab_header(title = "Table 2. Wilcoxon tests by surgery")
+
+# Table 3: ANOVA post-hoc
+tab_anova <- data.frame(
+  Comparison = c("Placebo vs Diet 1", "Placebo vs Diet 2", "Diet 1 vs Diet 2"),
+  p_value = c("<0.001", "<0.001", "0.8367"),
+  Significant = c("Yes", "Yes", "No")
+)
+gt(tab_anova) %>% tab_header(title = "Table 3. Post-hoc comparisons (FDR)")
+
+# END OF ANALYSIS
+cat("\n=== ANALYSIS COMPLETED ===\n")
