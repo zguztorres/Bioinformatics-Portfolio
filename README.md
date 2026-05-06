@@ -10,7 +10,7 @@ Desarrollo de una herramienta bioinformática para analizar y graficar el perfil
 
 * **Herramientas:** `R`, manipulación de *strings* biológicos, visualización de datos.
 
-### 3. Análisis Estadístico de Enfermedad de Crohn (R)
+### 3. [Análisis Estadístico de Enfermedad de Crohn (R)](enlace-a-tu-carpeta-R)
 Análisis estadístico completo de 117 pacientes con enfermedad de Crohn para identificar factores asociados a la cirugía. Incluye análisis exploratorio (histogramas, boxplots, diagramas de barras), inferencia (Wilcoxon, ANOVA, Chi-cuadrado, correlación de Spearman), regresión logística para predicción de cirugía (selección stepwise, curva ROC, matriz de confusión), y análisis multivariante (PCA, clustering jerárquico, mapas de calor).
 
 **Herramientas:** `R` `tidyverse` `ggplot2` `FactoMineR` `pheatmap` `gt` `regresión logística` `PCA` `clustering`
