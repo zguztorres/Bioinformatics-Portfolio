@@ -9,3 +9,8 @@ Pipeline automatizado para el procesamiento, normalización y visualización (He
 Desarrollo de una herramienta bioinformática para analizar y graficar el perfil de hidrofobicidad de secuencias de aminoácidos utilizando la escala de Kyte-Doolittle. Permite predecir características estructurales y funcionales de las proteínas (como posibles dominios transmembrana o regiones globulares), lo cual es un paso crítico para el diseño de péptidos, el estudio de mutaciones y el descubrimiento de fármacos.
 
 * **Herramientas:** `R`, manipulación de *strings* biológicos, visualización de datos.
+
+### 3. Análisis Estadístico de Enfermedad de Crohn (R)
+Análisis estadístico completo de 117 pacientes con enfermedad de Crohn para identificar factores asociados a la cirugía. Incluye análisis exploratorio (histogramas, boxplots, diagramas de barras), inferencia (Wilcoxon, ANOVA, Chi-cuadrado, correlación de Spearman), regresión logística para predicción de cirugía (selección stepwise, curva ROC, matriz de confusión), y análisis multivariante (PCA, clustering jerárquico, mapas de calor).
+
+**Herramientas:** `R` `tidyverse` `ggplot2` `FactoMineR` `pheatmap` `gt` `regresión logística` `PCA` `clustering`
