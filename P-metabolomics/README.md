@@ -19,10 +19,10 @@ La herramienta está diseñada para recibir matrices de abundancia, filtrar los 
 3. **Normalización:** Cálculo de abundancia relativa iterando sobre el valor máximo de cada metabolito para permitir la comparación visual entre muestras.
 4. **Visualización:** Generación de un Heatmap con paleta de alto contraste, exportable en alta resolución (300 dpi).
 
-## 📊 Resultado Visual
+##  Resultado Visual
 ![Perfil Metabólico](heatmap_metabolomica_final.png)
 
-## 🚀 Cómo ejecutarlo localmente
+## Cómo ejecutarlo localmente
 1. Clona este repositorio.
 2. Asegúrate de tener instaladas las librerías requeridas (`pip install pandas numpy seaborn matplotlib`).
 3. Ejecuta el archivo `.ipynb` en tu entorno de Jupyter o súbelo a Google Colab.
