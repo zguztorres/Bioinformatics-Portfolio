@@ -13,14 +13,11 @@ La herramienta está diseñada para recibir matrices de abundancia, filtrar los 
 * **Visualización:** `seaborn`, `matplotlib`
 * **Entorno:** Jupyter Notebook
 
-## ⚙️ Funcionalidades del Script
+## Funcionalidades del Script
 1. **Limpieza de Datos:** Imputación de valores nulos y estructuración de índices utilizando los identificadores de bases de datos metabólicas.
 2. **Filtrado:** Selección automatizada de los Top 25 metabolitos con mayor abundancia promedio.
 3. **Normalización:** Cálculo de abundancia relativa iterando sobre el valor máximo de cada metabolito para permitir la comparación visual entre muestras.
 4. **Visualización:** Generación de un Heatmap con paleta de alto contraste, exportable en alta resolución (300 dpi).
-
-##  Resultado Visual
-![Perfil Metabólico](heatmap_metabolomica_final.png)
 
 ## Cómo ejecutarlo localmente
 1. Clona este repositorio.
