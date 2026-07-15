@@ -1,16 +1,20 @@
-SynBioScan: Perfilado Termodinámico Automatizado y Predicción de Dianas 
+# SynBioScan: Automated Thermodynamic Profiling and Target Prediction
 
-SynBioScan: es un *pipeline* automatizado basado en R, diseñado para aplicaciones de bioinformática estructural y biología sintética. Esta herramienta procesa secuencias proteicas crudas, calcula su estabilidad termodinámica basándose en la escala de hidrofobicidad de Kyte-Doolittle, y predice automáticamente las coordenadas óptimas para la edición genética (como la inserción de *tags* o el escaneo mutacional). 
+**SynBioScan** is an automated pipeline built in R, designed for structural bioinformatics and synthetic biology applications. This tool processes raw protein sequences, calculates their thermodynamic stability based on the Kyte-Doolittle hydrophobicity scale, and automatically predicts optimal coordinates for genetic editing (such as tag insertion or mutational scanning).
 
-Desarrollada y validada originalmente utilizando la **enzima SIRT1** como modelo, esta herramienta hace evolucionar el análisis de proteínas: pasando de una inspección puramente visual en 3D, a un proceso robusto de toma de decisiones fundamentado en datos matemáticos.
+Originally developed and validated using the **SIRT1 enzyme** as a model, this tool evolves protein analysis from purely visual 3D inspection to a robust, data-driven decision-making process.
 
-## Características:
-* **Control de Calidad Automatizado (QC):** Sanitiza las secuencias de entrada y cuantifica el porcentaje de ruido biológico (ej. residuos desconocidos 'X') previo a cualquier cómputo, evitando fallos de ejecución.
-* **Ventana Deslizante Paramétrica:** Implementa un filtro de media móvil personalizable para suavizar las fluctuaciones locales y revelar las macrotendencias de plegamiento (núcleo hidrofóbico vs. bucles superficiales hidrofílicos).
-* **Buscador Predictivo de Dianas:** Ordena algorítmicamente la matriz de datos resultante para extraer y reportar por consola las coordenadas exactas de los dominios más hidrofílicos, identificando las zonas más seguras para intervenciones sintéticas.
-* **Visualización por Gradiente de Color:** Genera un perfil bidimensional continuo usando `ggplot2` (gradiente de azul a rojo), proporcionando una auditoría visual inmediata de la topología termodinámica de la molécula.
+## Key Features:
 
-## Herramientas usadas:
-* **Lenguaje:** R
-* **Librerías:** `ggplot2` (Visualización de datos avanzados)
-* **Lógica Central:** Funciones base de R (`gsub`, `strsplit`, bucles `for`, *Data Frames*) para un procesamiento de cadenas rápido y sin dependencias externas.
+* **Automated Quality Control (QC):** Sanitizes input sequences and quantifies biological noise (e.g., unknown residues 'X') prior to computation, preventing execution errors.
+* **Parametric Sliding Window:** Implements a customizable moving average filter to smooth local fluctuations and reveal large-scale folding trends (hydrophobic core vs. hydrophilic surface loops).
+* **Predictive Target Finder:** Algorithmic ranking of the resulting data matrix to extract and report the exact coordinates of the most hydrophilic domains, identifying the safest zones for synthetic interventions.
+* **Gradient Visualization:** Generates a continuous 2D profile using `ggplot2` (blue-to-red gradient), providing an immediate visual audit of the molecule's thermodynamic topology.
+
+## Tools Used:
+
+* **Language:** R
+* **Libraries:** `ggplot2` (Advanced data visualization), `zoo` (Vectorized sliding window calculations)
+* **Core Logic:** Base R functions (`gsub`, `strsplit`, `for` loops, *Data Frames*) for efficient string processing with minimal dependencies.
+
+---
