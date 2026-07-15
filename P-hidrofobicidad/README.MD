@@ -1,5 +1,3 @@
----
-
 # SynBioScan: Automated Thermodynamic Profiling and Target Prediction
 
 **SynBioScan** is an automated pipeline built in R, designed for structural bioinformatics and synthetic biology applications. This tool processes raw protein sequences, calculates their thermodynamic stability based on the Kyte-Doolittle hydrophobicity scale, and automatically predicts optimal coordinates for genetic editing (such as tag insertion or mutational scanning).
@@ -18,5 +16,3 @@ Originally developed and validated using the **SIRT1 enzyme** as a model, this t
 * **Language:** R
 * **Libraries:** `ggplot2` (Advanced data visualization), `zoo` (Vectorized sliding window calculations)
 * **Core Logic:** Base R functions (`gsub`, `strsplit`, `for` loops, *Data Frames*) for efficient string processing with minimal dependencies.
-
----
