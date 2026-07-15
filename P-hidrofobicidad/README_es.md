@@ -2,9 +2,7 @@
 **SynBioScan** es un *pipeline* automatizado basado en R, diseñado para aplicaciones de bioinformática estructural y biología sintética. Esta herramienta procesa secuencias proteicas crudas, calcula su estabilidad termodinámica basándose en la escala de hidrofobicidad de Kyte-Doolittle, y predice automáticamente las coordenadas óptimas para la edición genética (como la inserción de *tags* o el escaneo mutacional). 
 
 
-
 Desarrollada y validada originalmente utilizando la **enzima SIRT1** como modelo, esta herramienta hace evolucionar el análisis de proteínas: pasando de una inspección puramente visual en 3D, a un proceso robusto de toma de decisiones fundamentado en datos matemáticos.
-
 
 
 ## Características:
