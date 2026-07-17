@@ -15,7 +15,7 @@ Análisis estadístico completo de 117 pacientes con enfermedad de Crohn para id
 
 **Herramientas:** `R` `tidyverse` `ggplot2` `FactoMineR` `pheatmap` `gt` `regresión logística` `PCA` `clustering`
 
-### 4. Biofertilizer Analysis Pipeline (https://github.com/zguztorres/Bioinformatics-Portfolio/tree/main/Data%20Visualization)
+### 4.[ Biofertilizer Analysis Pipeline](https://github.com/zguztorres/Bioinformatics-Portfolio/tree/main/Data%20Visualization)
 Análisis crítico y rediseño de visualizaciones biológicas a partir de datos de campo. Este proyecto implementa un pipeline reproducible para analizar patrones de asociación entre el uso de biofertilizantes PGPB, el rendimiento de cultivos de gramíneas y la percepción de eficacia de los agricultores. El trabajo reemplaza visualizaciones estándar por gráficos perceptualmente robustos —como Cleveland dot plots, barras divergentes y heatmaps jerárquicos— siguiendo los principios de la Gramática de los Gráficos.
 
 Herramientas: Python, pandas, numpy, scipy, altair.
