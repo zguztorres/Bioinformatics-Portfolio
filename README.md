@@ -14,3 +14,10 @@ Desarrollo de una herramienta bioinformática para analizar y graficar el perfil
 Análisis estadístico completo de 117 pacientes con enfermedad de Crohn para identificar factores asociados a la cirugía. Incluye análisis exploratorio (histogramas, boxplots, diagramas de barras), inferencia (Wilcoxon, ANOVA, Chi-cuadrado, correlación de Spearman), regresión logística para predicción de cirugía (selección stepwise, curva ROC, matriz de confusión), y análisis multivariante (PCA, clustering jerárquico, mapas de calor).
 
 **Herramientas:** `R` `tidyverse` `ggplot2` `FactoMineR` `pheatmap` `gt` `regresión logística` `PCA` `clustering`
+
+### 4. Biofertilizer Analysis Pipeline (https://github.com/zguztorres/Bioinformatics-Portfolio/tree/main/Data%20Visualization)
+Análisis crítico y rediseño de visualizaciones biológicas a partir de datos de campo. Este proyecto implementa un pipeline reproducible para analizar patrones de asociación entre el uso de biofertilizantes PGPB, el rendimiento de cultivos de gramíneas y la percepción de eficacia de los agricultores. El trabajo reemplaza visualizaciones estándar por gráficos perceptualmente robustos —como Cleveland dot plots, barras divergentes y heatmaps jerárquicos— siguiendo los principios de la Gramática de los Gráficos.
+
+Herramientas: Python, pandas, numpy, scipy, altair.
+
+DOI: 10.5281/zenodo.20369388
